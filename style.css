@@ -1,0 +1,60 @@
+body {
+  background-color: #291d19ef;
+  font-family: "Pixelify Sans", sans-serif;
+  color: antiquewhite;
+  text-align: center;
+}
+
+header {
+  font-size: 28px;
+  color: #fff2a1;
+}
+
+h1 {
+  margin-bottom: 0px;
+}
+
+.version-2 {
+  display: block;
+  font-size: 28px;
+  color: #a9ffa1;
+  margin-bottom: -20px;
+}
+
+.ascii {
+  color: #f6f7d6;
+  font-size: 16px;
+  font-family: monospace;
+  line-height: 1.2;
+  margin-bottom: 0px;
+}
+
+p {
+  font-size: 22px;
+}
+
+.links {
+  display: block;
+  font-size: 28px;
+  color: #a1ffdb;
+  margin-bottom: -25;
+  text-align: center;
+}
+
+ul {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  padding: 0;
+}
+
+img {
+  width: 70px;
+  margin-top: 25px;
+}
+
+.mate {
+  font-size: 14px;
+  color: #fff2a1;
+}
