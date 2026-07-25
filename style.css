@@ -1,3 +1,7 @@
+header {
+  padding-top: 150px;
+}
+
 html {
   height: 100%;
   overflow-x: hidden;
@@ -26,7 +30,8 @@ body {
     #23122b,
     #0d0914
   );
-  background-size: 400% 400%;
+  background-position-y: -200px;
+  background-size: 400% 600%;
   animation: fondo 12s ease infinite;
 
   transform-style: preserve-3d;
