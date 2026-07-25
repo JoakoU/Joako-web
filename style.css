@@ -1,16 +1,36 @@
+html {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  perspective: 1px;
+}
+
 @keyframes fondo {
   0% {
-    background-color: #0f0d1b;
+    background-position: 0% 50%;
   }
   50% {
-    background-color: #190e24;
-  }
-  75% {
-    background-color: #0c1a1a;
+    background-position: 100% 50%;
   }
   100% {
-    background-color: #0f0d1b;
+    background-position: 0% 50%;
   }
+}
+
+body {
+  background: linear-gradient(
+    135deg,
+    #0f0c1b,
+    #181028,
+    #121829,
+    #23122b,
+    #0d0914
+  );
+  background-size: 400% 400%;
+  animation: fondo 12s ease infinite;
+
+  transform-style: preserve-3d;
+  transform: translateZ(-1px) scale(2);
 }
 
 body {
