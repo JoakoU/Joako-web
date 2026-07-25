@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="es">
   <head>
+    <audio src="audio.ogg"></audio>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Joako.Web V2.0</title>
@@ -16,23 +17,25 @@
   <body>
     <header>
       <h1>~ Joako.Web ~</h1>
-
+      <audio autoplay src="audio/audio.mp3" loop></audio>
       <pre class="ascii">
-⣿⣆⠱⣝⡵⣝⢅⠙⣿⢕⢕⢕⢕⢝⣥⢒⠅⣿⣿⣿⡿⣳⣌⠪⡪⣡⢑
-⣿⣿⣦⠹⣳⣳⣕⢅⠈⢗⢕⢕⢕⢕⢕⢈⢆⠟⠋⠉⠁⠉⠉⠁⠈⠼⢐
-⢰⣶⣶⣦⣝⢝⢕⢕⠅⡆⢕⢕⢕⢕⢕⣴⠏⣠⡶⠛⡉⡉⡛⢶⣦⡀⠐
-⡄⢻⢟⣿⣿⣷⣕⣕⣅⣿⣔⣕⣵⣵⣿⣿⢠⣿⢠⣮⡈⣌⠨⠅⠹⣷⡀
-⡵⠟⠈⢀⣀⣀⡀⠉⢿⣿⣿⣿⣿⣿⣿⣿⣼⣿⢈⡋⠴⢿⡟⣡⡇⣿⡇
-⠁⣠⣾⠟⡉⡉⡉⠻⣦⣻⣿⣿⣿⣿⣿⣿⣿⣿⣧⠸⣿⣦⣥⣿⡇⡿⣰
-⢰⣿⡏⣴⣌⠈⣌⠡⠈⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣬⣉⣉⣁⣄⢖⢕
-⢻⣿⡇⢙⠁⠴⢿⡟⣡⡆⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣵
-⣄⣻⣿⣌⠘⢿⣷⣥⣿⠇⣿⣿⣿⣿⣿⣿⠛⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿
-⢄⠻⣿⣟⠿⠦⠍⠉⣡⣾⣿⣿⣿⣿⣿⣿⢸⣿⣦⠙⣿⣿⣿⣿⣿⣿⣿
-⡑⣑⣈⣻⢗⢟⢞⢝⣻⣿⣿⣿⣿⣿⣿⣿⠸⣿⠿⠃⣿⣿⣿⣿⣿⣿⡿
-⡵⡈⢟⢕⢕⢕⢕⣵⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣶⣿⣿⣿⣿⣿⠿⠋⣀
+⡆⣐⢕⢕⢕⢕⢕⢕⢕⢕⠅⢗⢕⢕⢕⢕⢕⢕⢕⠕⠕⢕⢕⢕⢕⢕⢕⢕⢕⢕
+⢐⢕⢕⢕⢕⢕⣕⢕⢕⠕⠁⢕⢕⢕⢕⢕⢕⢕⢕⠅⡄⢕⢕⢕⢕⢕⢕⢕⢕⢕
+⢕⢕⢕⢕⢕⠅⢗⢕⠕⣠⠄⣗⢕⢕⠕⢕⢕⢕⠕⢠⣿⠐⢕⢕⢕⠑⢕⢕⠵⢕
+⢕⢕⢕⢕⠁⢜⠕⢁⣴⣿⡇⢓⢕⢵⢐⢕⢕⠕⢁⣾⢿⣧⠑⢕⢕⠄⢑⢕⠅⢕
+⢕⢕⠵⢁⠔⢁⣤⣤⣶⣶⣶⡐⣕⢽⠐⢕⠕⣡⣾⣶⣶⣶⣤⡁⢓⢕⠄⢑⢅⢑
+⠍⣧⠄⣶⣾⣿⣿⣿⣿⣿⣿⣷⣔⢕⢄⢡⣾⣿⣿⣿⣿⣿⣿⣿⣦⡑⢕⢤⠱⢐
+⢠⢕⠅⣾⣿⠋⢿⣿⣿⣿⠉⣿⣿⣷⣦⣶⣽⣿⣿⠈⣿⣿⣿⣿⠏⢹⣷⣷⡅⢐
+⣔⢕⢥⢻⣿⡀⠈⠛⠛⠁⢠⣿⣿⣿⣿⣿⣿⣿⣿⡀⠈⠛⠛⠁⠄⣼⣿⣿⡇⢔
+⢕⢕⢽⢸⢟⢟⢖⢖⢤⣶⡟⢻⣿⡿⠻⣿⣿⡟⢀⣿⣦⢤⢤⢔⢞⢿⢿⣿⠁⢕
+⢕⢕⠅⣐⢕⢕⢕⢕⢕⣿⣿⡄⠛⢀⣦⠈⠛⢁⣼⣿⢗⢕⢕⢕⢕⢕⢕⡏⣘⢕
+⢕⢕⠅⢓⣕⣕⣕⣕⣵⣿⣿⣿⣾⣿⣿⣿⣿⣿⣿⣿⣷⣕⢕⢕⢕⢕⡵⢀⢕⢕
+⢑⢕⠃⡈⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢃⢕⢕⢕
+⣆⢕⠄⢱⣄⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⢁⢕⢕⠕⢁
+⣿⣦⡀⣿⣿⣷⣶⣬⣍⣛⣛⣛⡛⠿⠿⠿⠛⠛⢛⣛⣉⣭⣤⣂⢜⠕⢑⣡⣴⣿
       </pre>
 
-      <span class="version-2">V2.0</span>
+      <span class="version-2">V2.1.1</span>
     </header>
 
     <p>
@@ -40,32 +43,54 @@
       que tuve que sacarle una secuela
     </p>
 
+    <h2><strong>Juegos Favoritos</strong></h2>
     <ul>
       <li>
         <a class="links" href="https://osu.ppy.sh/users/25087082"
-          ><strong>↪ Osu!</strong></a
+          ><strong>Osu!</strong></a
         ><img src="img/Osu.png" />
-        <p>Retirado de este juego<br />de mierda :3</p>
+        <p>Juego de mierda :3</p>
       </li>
 
       <li>
         <a class="links" href="https://fluxis.flux.moe/u/1137"
-          ><strong>↪ fluXis</strong></a
+          ><strong>FluXis</strong></a
         ><img src="img/FluxLogo.png" />
-        <p>Lo juego de vez en cuando, <br />es como Osu! pero con esteroides</p>
+        <p>Osu! con esteroides</p>
       </li>
 
       <li>
+        <a class="links" href="https://etternaonline.com/users/JoakoFR"
+          ><strong>Etterna</strong></a
+        ><img src="img/etterna.png" />
+        <p>Main Jumpstream</p>
+      </li>
+    </ul>
+
+    <h3><strong>Redes Sociales</strong></h3>
+
+    <ul>
+      <li>
         <a class="links" href="https://github.com/JoakoU"
-          ><strong>↪ Github</strong></a
+          ><strong>Github</strong></a
         ><img src="img/Github.png" />
 
         <p>Aun no subo nada, <br />pero en algun momento lo hare xD</p>
       </li>
 
       <li>
+        <a
+          class="links"
+          href="https://steamcommunity.com/profiles/76561199164842453/"
+          ><strong>Steam</strong></a
+        ><img src="img/steam.png" />
+
+        <p>Perfil de Steam</p>
+      </li>
+
+      <li>
         <a class="links" href="https://www.youtube.com/@Joako-FR"
-          ><strong>↪ Youtube</strong></a
+          ><strong>Youtube</strong></a
         ><img src="img/Tube.png" />
         <p>Poco contenido, <br />algun dia quizas lo reviva</p>
       </li>
@@ -73,7 +98,8 @@
 
     <div class="mate">
       <br />Diseñado a puro 🧉 y 💖<br />
-      por Joako
+      por Joako<br />:3
     </div>
+    <script src="script.js"></script>
   </body>
 </html>
