@@ -50,10 +50,17 @@ p {
 
 .links {
   display: block;
+  text-decoration: none;
   font-size: 28px;
   color: #a1ffdb;
   margin-bottom: -15px;
   text-align: center;
+  transition: all 0.2s ease-in-out;
+}
+
+.links:hover {
+  color: beige;
+  font-size: 34px;
 }
 
 ul {
