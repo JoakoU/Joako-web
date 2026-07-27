@@ -1,11 +1,12 @@
 <!doctype html>
 <html lang="es">
   <head>
-    <div class="parallax"></div>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Joako.Web</title>
+    <title>Joako.Web ~ Retro Cyber Hub</title>
+    <!-- Hoja de estilos CSS principal con diseño retro, temas y animaciones -->
     <link rel="stylesheet" href="style.css" />
+    <!-- Carga de la fuente Pixelify Sans desde Google Fonts para estetica arcade/pixel -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -14,11 +15,43 @@
     />
   </head>
 
-  <body>
-    <header>
-      <h1>~ Joako.Web ~</h1>
-      <audio autoplay src="audio/audio.mp3" loop></audio>
-      <pre class="ascii">
+  <body class="theme-cyberpunk">
+    <!-- Capas de efectos de fondo visuales en Canvas -->
+    <!-- Capa 1: Filtro de lineas de escaneo CRT de televisor antiguo -->
+    <div id="crt-overlay"></div>
+    <!-- Capa 2: Canvas dinamico para estrellas y particulas flotantes -->
+    <canvas id="bg-canvas"></canvas>
+    <!-- Capa 3: Canvas dinamico para la lluvia de codigo Matrix -->
+    <canvas id="matrix-canvas"></canvas>
+    <!-- Capa 4: Contenedor para el efecto de profundidad Parallax -->
+    <div class="parallax"></div>
+
+    <!-- Barra superior de navegacion, monitor en vivo y botones de control -->
+    <div class="top-action-bar">
+      <!-- Indicador de estado en vivo con reloj en tiempo real -->
+      <div class="live-status">
+        <span class="status-dot"></span>
+        <span id="live-time">00:00:00</span> | 
+        <span id="live-status-text">Jugando FluXis</span>
+      </div>
+      <!-- Botones de accion para alternar efectos SFX, temas, CRT, terminal y mini-juego -->
+      <div class="top-buttons">
+        <button id="sfx-toggle-btn" class="top-btn" title="Efectos de sonido 8-bit">[SFX: ON]</button>
+        <button id="theme-btn" class="top-btn" title="Cambiar Tema Visual">[TEMA]</button>
+        <button id="crt-toggle-btn" class="top-btn" title="Activar/Desactivar filtro CRT">[CRT]</button>
+        <button id="terminal-open-btn" class="top-btn highlight-btn" title="Abrir Consola Terminal">[TERMINAL]</button>
+        <button id="minigame-open-btn" class="top-btn highlight-btn" title="Jugar Mini-Juego Arcade">[MINI-JUEGO]</button>
+      </div>
+    </div>
+
+    <!-- Contenedor principal del contenido de la pagina -->
+    <main class="main-container">
+      <header>
+        <!-- Titulo principal con efecto de resplandor neon pulsante -->
+        <h1 class="glow-title">~ Joako.Web ~</h1>
+
+        <!-- Arte en caracteres ASCII -->
+        <pre class="ascii">
   ⣠⣤⣄⣾⣿⡷⣠⣴⣶⣿⣿⣿⣿⣿⣿⣷⣶⣤⡀
 ⠀⣼⠋⠀⣾⡟⣳⣾⣿⡿⣿⣿⣿⠟⣿⣿⣿⣿⣿⣿⣿⣷⣄
 ⠀⡇⠀⠀⠉⢱⣿⣿⡿⢰⣿⣿⠃⢰⣿⣿⣿⣿⣿⡟⢿⣿⣿⣷
@@ -29,75 +62,176 @@
 ⠀⠀⠀⠀⣿⡁⣿⡇⠻⣿⣿⣿⣧⣙⠛⣛⣿⣿⣿⣿⣿⠡⠂⣿⡏
 ⠀⠀⠀⠀⣿⣧⣙⡇⠲⢀⣉⠛⠛⠿⠿⠿⣿⣿⡿⠿⠋⣴⢀⣿⠃
 ⠀⠀⠀⣸⣿⡿⣿⡟⢠⣿⣿⢷⣦⢠⣤⣤⣤⠰⣶⣶⣿⠃⣼⣡
-⠀⠀⢠⣿⡿⢠⣿⢡⣿⣿⠃⣾⡇⣸⢸⣿⣿⡇⡿⢿⣿⣿⣿⣿  
-      </pre>
+⠀⠀⢠⣿⡿⢠⣿⣿⣿⠃⣾⡇⣸⢸⣿⣿⡇⡿⢿⣿⣿⣿⣿  
+        </pre>
 
-      <span class="version-2">V2.2.6</span>
-    </header>
+        <!-- Etiqueta interactiva de version del sitio -->
+        <span class="version-2" id="version-tag">V2.2.6</span>
 
-    <p>
-      Joako.web era tan bueno <br />
-      que tuve que sacarle una secuela
-    </p>
+        <!-- Cyber Deck: Reproductor de audio retro con visualizador de espectro -->
+        <div class="audio-player-deck">
+          <!-- Elemento de audio HTML5 para la musica de fondo en bucle -->
+          <audio id="bg-audio" src="audio/audio.mp3" loop preload="auto"></audio>
+          <!-- Canvas donde se dibuja el ecualizador reactivo a las frecuencias del audio -->
+          <div class="visualizer-container">
+            <canvas id="visualizer" width="320" height="50"></canvas>
+          </div>
+          <!-- Controles interactivos del reproductor: Play/Pause, Mute y Slider de volumen -->
+          <div class="audio-controls">
+            <button id="audio-play-btn" class="pixel-btn" type="button" aria-label="Reproducir o pausar audio">
+              <span class="btn-icon">[>]</span> <span class="btn-text">Reproducir</span>
+            </button>
+            <button id="audio-mute-btn" class="pixel-btn" type="button" aria-label="Silenciar o activar sonido">
+              <span class="btn-icon">[VOL]</span> <span class="btn-text">Sonar</span>
+            </button>
+            <div class="volume-box">
+              <span class="volume-label">VOL</span>
+              <input type="range" id="volume-slider" min="0" max="1" step="0.02" value="0.7" aria-label="Volumen">
+            </div>
+          </div>
+          <p class="audio-instruction">Atajos: <span>[Espacio]</span> Play/Pausa | <span>[M]</span> Silenciar | <span>[T]</span> Terminal | <span>[Secreto: ↑↑↓↓←→←→BA]</span></p>
+        </div>
+      </header>
 
-    <h2><strong>Juegos Favoritos</strong></h2>
-    <ul>
-      <li>
-        <a class="links" href="https://osu.ppy.sh/users/25087082"
-          >Osu!<br />
-          <img src="img/Osu.png"
-        /></a>
-        <p>Juego de mierda :3</p>
-      </li>
+      <!-- Subtitulo descriptivo -->
+      <p class="subtitle">
+        Joako.web era tan bueno <br />
+        que tuve que sacarle una secuela
+      </p>
 
-      <li>
-        <a class="links" href="https://fluxis.flux.moe/u/1137"
-          >FluXis<br /><img src="img/FluxLogo.png"
-        /></a>
-        <p>Osu! con esteroides</p>
-      </li>
+      <!-- Seccion 1: Juegos Favoritos con tarjetas en perspectiva 3D Tilt -->
+      <section class="card-section">
+        <h2><strong>Juegos Favoritos</strong></h2>
+        <ul class="cards-grid">
+          <li class="card-item">
+            <a class="links" href="https://osu.ppy.sh/users/25087082" target="_blank" rel="noopener"
+              >Osu!<br />
+              <img src="img/Osu.png" alt="Osu! logo"
+            /></a>
+            <p>Juego de mierda :3</p>
+          </li>
 
-      <li>
-        <a class="links" href="https://etternaonline.com/users/JoakoFR"
-          >Etterna<br /><img src="img/etterna.png"
-        /></a>
-        <p>Main Jumpstream</p>
-      </li>
-    </ul>
+          <li class="card-item">
+            <a class="links" href="https://fluxis.flux.moe/u/1137" target="_blank" rel="noopener"
+              >FluXis<br /><img src="img/FluxLogo.png" alt="FluXis logo"
+            /></a>
+            <p>Osu! con esteroides</p>
+          </li>
 
-    <h3><strong>Redes Sociales</strong></h3>
+          <li class="card-item">
+            <a class="links" href="https://etternaonline.com/users/JoakoFR" target="_blank" rel="noopener"
+              >Etterna<br /><img src="img/etterna.png" alt="Etterna logo"
+            /></a>
+            <p>Main Jumpstream</p>
+          </li>
+        </ul>
+      </section>
 
-    <ul>
-      <li>
-        <a class="links" href="https://github.com/JoakoU"
-          >Github <br /><img src="img/Github.png"
-        /></a>
+      <!-- Seccion 2: Redes Sociales -->
+      <section class="card-section">
+        <h3><strong>Redes Sociales</strong></h3>
 
-        <p>Aun no subo nada, <br />pero en algun momento lo hare xD</p>
-      </li>
+        <ul class="cards-grid">
+          <li class="card-item">
+            <a class="links" href="https://github.com/JoakoU" target="_blank" rel="noopener"
+              >Github <br /><img src="img/Github.png" alt="GitHub logo"
+            /></a>
 
-      <li>
-        <a
-          class="links"
-          href="https://steamcommunity.com/profiles/76561199164842453/"
-          >Steam <br /><img src="img/steam.png"
-        /></a>
+            <p>Aun no subo nada, <br />pero en algun momento lo hare xD</p>
+          </li>
 
-        <p>Perfil de Steam</p>
-      </li>
+          <li class="card-item">
+            <a
+              class="links"
+              href="https://steamcommunity.com/profiles/76561199164842453/"
+              target="_blank"
+              rel="noopener"
+              >Steam <br /><img src="img/steam.png" alt="Steam logo"
+            /></a>
 
-      <li>
-        <a class="links" href="https://www.youtube.com/@Joako-FR"
-          >Youtube <br /><img src="img/Tube.png"
-        /></a>
-        <p>Poco contenido, <br />algun dia quizas lo reviva</p>
-      </li>
-    </ul>
+            <p>Perfil de Steam</p>
+          </li>
 
-    <div class="mate">
-      <br />Diseñado a puro 🧉 y 💖<br />
-      por Joako<br />:3
+          <li class="card-item">
+            <a class="links" href="https://www.youtube.com/@Joako-FR" target="_blank" rel="noopener"
+              >Youtube <br /><img src="img/Tube.png" alt="YouTube logo"
+            /></a>
+            <p>Poco contenido, <br />algun dia quizas lo reviva</p>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Seccion de Pie de Pagina: Widget interactivo de Mate con contador y particulas -->
+      <footer class="mate-section">
+        <div class="mate-card" id="mate-card">
+          <!-- Contenedor donde se generan dinamicamente las particulas de vapor flotante -->
+          <div class="steam-container" id="steam-container"></div>
+          <!-- Emoji del mate 🧉 unico permitido en el proyecto -->
+          <div class="mate-icon">🧉</div>
+          <button id="cebar-mate-btn" class="pixel-btn mate-btn" type="button">
+            ¡Cebar Mate!
+          </button>
+          <div class="mate-counter-text">
+            <span id="mate-count">0</span> mates cebados
+          </div>
+          <div class="mate-footer-text">
+            Diseñado a puro mate y amor<br />
+            por Joako :3
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <!-- Ventana Modal Desplegable: Consola Terminal Retro JoakoOS -->
+    <div id="terminal-modal" class="modal-overlay hidden">
+      <div class="terminal-window">
+        <div class="terminal-header">
+          <span class="terminal-title">[TERMINAL] JoakoOS v3.0</span>
+          <button id="terminal-close-btn" class="close-btn">&times;</button>
+        </div>
+        <!-- Salida del historial de comandos y respuestas de la consola -->
+        <div class="terminal-body" id="terminal-output">
+          <p class="term-line system-text">Bienvenido a la consola terminal de Joako.Web.</p>
+          <p class="term-line system-text">Escribe <span class="term-cmd">help</span> para ver la lista de comandos disponibles.</p>
+        </div>
+        <!-- Linea de entrada para ingresar comandos -->
+        <div class="terminal-input-row">
+          <span class="prompt">joako@web:~$</span>
+          <input type="text" id="terminal-input" autocomplete="off" placeholder="Escribe un comando..." />
+        </div>
+      </div>
     </div>
+
+    <!-- Ventana Modal Desplegable: Mini-Juego Arcade en Canvas 2D -->
+    <div id="minigame-modal" class="modal-overlay hidden">
+      <div class="game-window">
+        <div class="game-header">
+          <span class="game-title">[ARCADE] Joako's Osu! & Mate Catch</span>
+          <button id="minigame-close-btn" class="close-btn">&times;</button>
+        </div>
+        <!-- Marcadores del juego: Puntaje, Combo, Vidas y Récord Personal -->
+        <div class="game-hud">
+          <div>Puntaje: <span id="game-score">0</span></div>
+          <div>Combo: <span id="game-combo">0x</span></div>
+          <div>Vidas: <span id="game-lives">[***]</span></div>
+          <div>Récord: <span id="game-highscore">0</span></div>
+        </div>
+        <!-- Lienzo de Renderizado 2D para el Mini-Juego -->
+        <div class="game-canvas-container">
+          <canvas id="game-canvas" width="480" height="360"></canvas>
+          <div id="game-start-overlay" class="game-overlay-screen">
+            <h3>¡Atrapa los Mates y Círculos Osu!</h3>
+            <p>Mueve la cesta con el ratón o flechas [←] [→]</p>
+            <button id="start-game-btn" class="pixel-btn">[>] Iniciar Partida</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contenedor donde se montan dinamicamente las notificaciones emergentes Toast -->
+    <div id="toast-container" aria-live="polite"></div>
+
+    <!-- Script principal de motor de JavaScript -->
     <script src="script.js"></script>
   </body>
 </html>

@@ -1,126 +1,886 @@
-header {
-  padding-top: 150px;
+/* ==========================================================================
+   Joako.Web - Retro Cyber Deck & Arcade Stylesheet
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. SISTEMA DE DISEÑO Y VARIABLES CSS (THEMING SYSTEM)
+   -------------------------------------------------------------------------- */
+:root {
+  /* Paleta de colores predeterminada: Cyberpunk Neon */
+  --bg-dark: #0d0a19;
+  --accent-mint: #a1ffdb;
+  --accent-yellow: #fff2a1;
+  --accent-pink: #ff7ebb;
+  --accent-purple: #9d4edd;
+  --accent-blue: #70a1ff;
+  --text-main: #f6f7d6;
+  --card-bg: rgba(22, 16, 38, 0.65);
+  --card-border: rgba(161, 255, 219, 0.25);
+  --card-hover-border: rgba(161, 255, 219, 0.8);
+  --glow-shadow: 0 0 15px rgba(161, 255, 219, 0.3);
+  --bg-gradient: linear-gradient(135deg, #090714, #130c25, #0f1426, #1e0e27, #0a0712);
+}
+
+/* Tema 2: GameBoy Monocromatico Verde (4-Bit Retro) */
+body.theme-gameboy {
+  --accent-mint: #9bbc0f;
+  --accent-yellow: #8bac0f;
+  --accent-pink: #306230;
+  --accent-purple: #0f380f;
+  --accent-blue: #8bac0f;
+  --text-main: #9bbc0f;
+  --card-bg: rgba(15, 56, 15, 0.8);
+  --card-border: rgba(139, 172, 15, 0.4);
+  --card-hover-border: rgba(155, 188, 15, 0.9);
+  --glow-shadow: 0 0 15px rgba(155, 188, 15, 0.4);
+  --bg-gradient: linear-gradient(135deg, #0f380f, #184218, #0b290b);
+}
+
+/* Tema 3: Osu! Magenta (Rosa y Púrpura brillante) */
+body.theme-osupink {
+  --accent-mint: #ff7ebb;
+  --accent-yellow: #ffda79;
+  --accent-pink: #ff5252;
+  --accent-purple: #b33771;
+  --accent-blue: #ff7ebb;
+  --text-main: #fff0f5;
+  --card-bg: rgba(45, 15, 35, 0.7);
+  --card-border: rgba(255, 126, 187, 0.3);
+  --card-hover-border: rgba(255, 126, 187, 0.9);
+  --glow-shadow: 0 0 18px rgba(255, 126, 187, 0.5);
+  --bg-gradient: linear-gradient(135deg, #2b091e, #3d0e2e, #1a0514);
+}
+
+/* Tema 4: Matrix Code (Verde Terminal Hackers) */
+body.theme-matrix {
+  --accent-mint: #00ff66;
+  --accent-yellow: #00cc44;
+  --accent-pink: #00ffaa;
+  --accent-purple: #004411;
+  --accent-blue: #00ff66;
+  --text-main: #00ff66;
+  --card-bg: rgba(0, 20, 5, 0.85);
+  --card-border: rgba(0, 255, 102, 0.3);
+  --card-hover-border: rgba(0, 255, 102, 0.9);
+  --glow-shadow: 0 0 18px rgba(0, 255, 102, 0.4);
+  --bg-gradient: linear-gradient(135deg, #000a02, #001505, #000501);
+}
+
+/* --------------------------------------------------------------------------
+   2. ESTILOS GENERALES Y ANIMACIONES DE FONDO
+   -------------------------------------------------------------------------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 html {
   height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
-  perspective: 1px;
-}
-
-@keyframes fondo {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+  scroll-behavior: smooth;
 }
 
 body {
-  background: linear-gradient(
-    135deg,
-    #0f0c1b,
-    #181028,
-    #121829,
-    #23122b,
-    #0d0914
-  );
-  background-position-y: -200px;
-  background-size: 400% 600%;
-  animation: fondo 12s ease infinite;
-
-  transform-style: preserve-3d;
-  transform: translateZ(-1px) scale(2);
-}
-
-body {
-  font-family: "Pixelify Sans", sans-serif;
-  color: antiquewhite;
+  font-family: "Pixelify Sans", cursive, monospace, sans-serif;
+  color: var(--text-main);
   text-align: center;
-  animation: fondo 10s infinite;
+  min-height: 100vh;
+  background: var(--bg-gradient);
+  background-size: 400% 400%;
+  animation: fondoGradient 16s ease infinite;
+  position: relative;
+  transition: background 0.5s ease, color 0.5s ease;
+}
+
+/* Animacion fluida de desplazamiento del degradado del fondo */
+@keyframes fondoGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* --------------------------------------------------------------------------
+   3. CAPAS DE CANVAS Y SHADER CRT DE TELEVISOR
+   -------------------------------------------------------------------------- */
+#bg-canvas, #matrix-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+}
+
+#matrix-canvas {
+  display: none;
+  opacity: 0.6;
+}
+
+/* Mostrar la lluvia Matrix solo cuando la clase del tema este activa */
+body.theme-matrix #matrix-canvas {
+  display: block;
+}
+
+/* Overlay de filtro de lineas de escaneo retro CRT */
+#crt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.25) 50%
+  ), linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.03),
+    rgba(0, 255, 0, 0.01),
+    rgba(0, 0, 255, 0.03)
+  );
+  background-size: 100% 3px, 6px 100%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#crt-overlay.crt-active {
+  opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+   4. BARRA SUPERIOR DE ACCION Y MONITOR EN VIVO
+   -------------------------------------------------------------------------- */
+.top-action-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 24px;
+  background: rgba(10, 7, 20, 0.85);
+  border-bottom: 1px solid var(--card-border);
+  backdrop-filter: blur(10px);
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.live-status {
+  font-size: 0.9rem;
+  color: var(--accent-mint);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: #00ff66;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #00ff66;
+  animation: pulseDot 1.5s infinite alternate;
+}
+
+@keyframes pulseDot {
+  from { opacity: 0.4; }
+  to { opacity: 1; }
+}
+
+.top-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.top-btn {
+  font-family: inherit;
+  font-size: 0.85rem;
+  padding: 5px 12px;
+  background: rgba(20, 15, 35, 0.8);
+  border: 1px solid var(--card-border);
+  color: var(--text-main);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.top-btn:hover {
+  background: rgba(161, 255, 219, 0.2);
+  border-color: var(--accent-mint);
+  transform: translateY(-1px);
+}
+
+.highlight-btn {
+  border-color: var(--accent-yellow);
+  color: var(--accent-yellow);
+}
+
+.highlight-btn:hover {
+  background: rgba(255, 242, 161, 0.2);
+}
+
+/* --------------------------------------------------------------------------
+   5. CONTENEDOR PRINCIPAL, TITULO Y ARTE ASCII
+   -------------------------------------------------------------------------- */
+.main-container {
+  position: relative;
+  z-index: 1;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 30px 20px 60px;
 }
 
 header {
-  font-size: 28px;
-  color: #fff2a1;
+  margin-top: 10px;
+  margin-bottom: 30px;
 }
 
-h1 {
-  margin-bottom: 0px;
+.glow-title {
+  font-size: 3rem;
+  color: var(--accent-yellow);
+  text-shadow: 0 0 10px rgba(255, 242, 161, 0.6), 0 0 20px rgba(255, 242, 161, 0.3);
+  letter-spacing: 2px;
+  animation: titlePulse 3s ease-in-out infinite alternate;
 }
 
-.version-2 {
-  display: block;
-  font-size: 28px;
-  color: #a9ffa1;
-  margin-bottom: -20px;
+@keyframes titlePulse {
+  from { text-shadow: 0 0 10px rgba(255, 242, 161, 0.5), 0 0 20px rgba(255, 242, 161, 0.2); }
+  to { text-shadow: 0 0 18px rgba(255, 242, 161, 0.9), 0 0 30px rgba(161, 255, 219, 0.6); }
 }
 
 .ascii {
-  color: #f6f7d6;
-  font-size: 18px;
+  color: var(--text-main);
+  font-size: 16px;
   font-family: monospace;
-  line-height: 1.3;
-  margin-bottom: 0px;
+  line-height: 1.25;
+  margin: 15px auto;
+  display: inline-block;
+  background: rgba(10, 6, 20, 0.5);
+  padding: 15px 20px;
+  border-radius: 12px;
+  border: 1px dashed var(--card-border);
+  backdrop-filter: blur(4px);
+  user-select: none;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  transition: border-color 0.3s ease;
 }
 
-p {
-  font-size: 22px;
+.ascii:hover {
+  border-color: var(--accent-mint);
+}
+
+.version-2 {
+  display: inline-block;
+  font-size: 1.5rem;
+  color: var(--accent-mint);
+  background: rgba(169, 255, 161, 0.1);
+  padding: 4px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--card-border);
+  margin-top: 10px;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.version-2:hover {
+  transform: scale(1.1) rotate(-2deg);
+  background: rgba(169, 255, 161, 0.25);
+}
+
+/* --------------------------------------------------------------------------
+   6. CYBER DECK DE AUDIO Y VISUALIZADOR DE CANVASES PREDETERMINADOS
+   -------------------------------------------------------------------------- */
+.audio-player-deck {
+  margin: 25px auto 10px;
+  padding: 16px 20px;
+  background: rgba(14, 10, 26, 0.75);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  max-width: 440px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.audio-player-deck:hover {
+  border-color: var(--card-hover-border);
+  box-shadow: var(--glow-shadow);
+}
+
+.visualizer-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+  background: rgba(5, 3, 10, 0.8);
+  border-radius: 8px;
+  padding: 6px;
+  border: 1px inset rgba(161, 255, 219, 0.15);
+}
+
+#visualizer {
+  width: 100%;
+  height: 50px;
+  display: block;
+}
+
+.audio-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.pixel-btn {
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 8px 16px;
+  border: 1px solid var(--accent-mint);
+  background: rgba(10, 10, 20, 0.85);
+  color: var(--accent-mint);
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  user-select: none;
+}
+
+.pixel-btn:hover {
+  transform: translateY(-2px);
+  background: rgba(161, 255, 219, 0.2);
+  box-shadow: 0 4px 12px rgba(161, 255, 219, 0.3);
+}
+
+.pixel-btn:active {
+  transform: translateY(1px);
+}
+
+.volume-box {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(5, 3, 10, 0.6);
+  padding: 4px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(161, 255, 219, 0.15);
+}
+
+.volume-label {
+  font-size: 0.85rem;
+  color: var(--accent-mint);
+  font-weight: bold;
+}
+
+#volume-slider {
+  width: 70px;
+  accent-color: var(--accent-mint);
+  cursor: pointer;
+}
+
+.audio-instruction {
+  font-size: 0.85rem;
+  color: #a0aec0;
+  margin-top: 10px;
+}
+
+.audio-instruction span {
+  color: var(--accent-yellow);
+  font-weight: bold;
+}
+
+/* --------------------------------------------------------------------------
+   7. SECCIONES Y TARJETAS CON PERSPECTIVA 3D TILT
+   -------------------------------------------------------------------------- */
+.subtitle {
+  font-size: 1.4rem;
+  line-height: 1.5;
+  margin: 30px 0 40px;
+  color: #e2e8f0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+h2, h3 {
+  font-size: 2rem;
+  color: var(--accent-yellow);
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+.card-section {
+  margin-bottom: 50px;
+}
+
+.cards-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  width: 100%;
+  padding: 0;
+  perspective: 1000px;
+}
+
+.card-item {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 24px 16px;
+  backdrop-filter: blur(8px);
+  transform-style: preserve-3d;
+  transition: transform 0.15s ease-out, border-color 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease;
+  will-change: transform;
+}
+
+.card-item:hover {
+  border-color: var(--card-hover-border);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), var(--glow-shadow);
+}
+
+.card-item.hidden {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.card-item.reveal {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .links {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-decoration: none;
-  font-size: 28px;
-  color: #a1ffdb;
-  margin-bottom: -15px;
-  text-align: center;
-  transition: all 0.2s ease-in-out;
+  font-size: 1.75rem;
+  color: var(--accent-mint);
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .links:hover {
-  color: beige;
-  font-size: 34px;
-}
-
-.links:hover img {
-  transform: scale(1.1);
-  filter: brightness(1.2);
+  color: var(--accent-yellow);
 }
 
 .links img {
-  transition:
-    transform 0.2s ease,
-    filter 0.2s ease;
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
 }
 
-ul {
-  list-style: none;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  width: 100%;
-  padding: 0;
-  max-width: 850px;
-  margin: 0 auto;
+.links:hover img {
+  transform: scale(1.15) rotate(3deg);
+  filter: brightness(1.25) drop-shadow(0 0 12px var(--accent-mint));
 }
 
-img {
-  width: 90px;
-  margin-top: 25px;
+.card-item p {
+  font-size: 1.05rem;
+  color: #cbd5e1;
+  margin-top: 10px;
+  line-height: 1.4;
 }
 
-.mate {
-  font-size: 20px;
+/* --------------------------------------------------------------------------
+   8. WIDGET INTERACTIVO DE MATE Y ANIMACION DE VAPOR 🧉
+   -------------------------------------------------------------------------- */
+.mate-section {
+  margin-top: 40px;
+}
+
+.mate-card {
+  position: relative;
+  display: inline-block;
+  background: rgba(18, 12, 32, 0.7);
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  padding: 24px 36px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.mate-card:hover {
+  border-color: var(--accent-yellow);
+  transform: translateY(-2px);
+}
+
+.steam-container {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 40px;
+  pointer-events: none;
+}
+
+/* Particulas de humo de mate elevandose dinamicamente */
+.steam-particle {
+  position: absolute;
+  bottom: 0;
+  width: 8px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  animation: steamRise 1.5s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes steamRise {
+  0% {
+    opacity: 0.8;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-50px) scale(2.5) translateX(calc(-10px + 20px * var(--rand)));
+  }
+}
+
+.mate-icon {
+  font-size: 3rem;
+  margin-bottom: 10px;
+  display: inline-block;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.mate-card:hover .mate-icon {
+  transform: scale(1.2) rotate(10deg);
+}
+
+.mate-btn {
+  font-size: 1.1rem;
+  padding: 10px 24px;
+  border-color: var(--accent-yellow);
+  color: var(--accent-yellow);
+  margin-bottom: 12px;
+}
+
+.mate-btn:hover {
+  background: rgba(255, 242, 161, 0.2);
+  box-shadow: 0 0 15px rgba(255, 242, 161, 0.4);
+}
+
+.mate-counter-text {
+  font-size: 1.1rem;
+  color: var(--accent-mint);
+  margin-bottom: 12px;
+}
+
+.mate-footer-text {
+  font-size: 1rem;
   color: #fff9d2;
-  margin-bottom: 25px;
+  line-height: 1.4;
 }
 
-h2,
-h3 {
-  font-size: 36px;
+/* --------------------------------------------------------------------------
+   9. VENTANAS MODALES (TERMINAL Y MINI-JUEGO ARCADE)
+   -------------------------------------------------------------------------- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(5, 3, 15, 0.8);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.modal-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  color: var(--accent-yellow);
+  font-size: 1.5rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.close-btn:hover {
+  transform: scale(1.2) rotate(90deg);
+  color: var(--accent-pink);
+}
+
+/* Ventana de Consola Terminal Retro */
+.terminal-window {
+  width: 100%;
+  max-width: 650px;
+  background: rgba(10, 15, 12, 0.95);
+  border: 1px solid var(--accent-mint);
+  border-radius: 12px;
+  box-shadow: 0 0 30px rgba(0, 255, 102, 0.25);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.terminal-header {
+  background: rgba(20, 30, 25, 0.9);
+  padding: 10px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(161, 255, 219, 0.2);
+}
+
+.terminal-title {
+  font-size: 1rem;
+  color: var(--accent-mint);
+  font-family: monospace;
+}
+
+.terminal-body {
+  height: 280px;
+  padding: 14px;
+  overflow-y: auto;
+  font-family: monospace;
+  font-size: 0.95rem;
+  text-align: left;
+  line-height: 1.4;
+  color: #a1ffdb;
+}
+
+.term-line {
+  margin-bottom: 6px;
+  word-break: break-all;
+}
+
+.term-cmd {
+  color: var(--accent-yellow);
+  font-weight: bold;
+}
+
+.system-text {
+  color: #a0aec0;
+}
+
+.terminal-input-row {
+  display: flex;
+  align-items: center;
+  padding: 10px 14px;
+  background: rgba(5, 10, 8, 0.95);
+  border-top: 1px solid rgba(161, 255, 219, 0.2);
+}
+
+.prompt {
+  color: var(--accent-yellow);
+  font-family: monospace;
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+#terminal-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--accent-mint);
+  font-family: monospace;
+  font-size: 1rem;
+}
+
+/* Ventana del Mini-Juego Arcade Canvas */
+.game-window {
+  width: 100%;
+  max-width: 520px;
+  background: rgba(14, 10, 26, 0.95);
+  border: 2px solid var(--accent-yellow);
+  border-radius: 16px;
+  box-shadow: 0 0 35px rgba(255, 242, 161, 0.3);
+  overflow: hidden;
+  padding: 16px;
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.game-title {
+  font-size: 1.1rem;
+  color: var(--accent-yellow);
+}
+
+.game-hud {
+  display: flex;
+  justify-content: space-between;
+  background: rgba(5, 3, 10, 0.8);
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: var(--accent-mint);
+  margin-bottom: 12px;
+  border: 1px solid rgba(161, 255, 219, 0.2);
+}
+
+.game-canvas-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+#game-canvas {
+  background: #080512;
+  border-radius: 8px;
+  border: 1px solid var(--card-border);
+  display: block;
+  max-width: 100%;
+}
+
+.game-overlay-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 6, 20, 0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  padding: 20px;
+  text-align: center;
+  border-radius: 8px;
+}
+
+.game-overlay-screen h3 {
+  font-size: 1.4rem;
+  color: var(--accent-yellow);
+  margin: 0;
+}
+
+.game-overlay-screen p {
+  font-size: 0.95rem;
+  color: #cbd5e1;
+}
+
+/* --------------------------------------------------------------------------
+   10. NOTIFICACIONES TOAST Y MODO KONAMI
+   -------------------------------------------------------------------------- */
+#toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.toast {
+  background: rgba(14, 10, 26, 0.9);
+  border: 1px solid var(--accent-mint);
+  color: var(--text-main);
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), var(--glow-shadow);
+  transform: translateX(120%);
+  animation: slideInToast 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  pointer-events: auto;
+}
+
+.toast.toast-exit {
+  animation: slideOutToast 0.3s forwards;
+}
+
+@keyframes slideInToast {
+  to { transform: translateX(0); }
+}
+
+@keyframes slideOutToast {
+  to { transform: translateX(120%); opacity: 0; }
+}
+
+/* Modo Super Joako (Activado con el Codigo Konami) */
+body.super-joako-mode {
+  animation: rainbowBg 4s linear infinite !important;
+}
+
+@keyframes rainbowBg {
+  0% { background: #ff0055; }
+  20% { background: #7a00ff; }
+  40% { background: #00e5ff; }
+  60% { background: #00ff66; }
+  80% { background: #ffea00; }
+  100% { background: #ff0055; }
+}
+
+body.super-joako-mode .glow-title {
+  animation: rainbowText 1s linear infinite alternate;
+}
+
+@keyframes rainbowText {
+  from { filter: hue-rotate(0deg) scale(1.05); }
+  to { filter: hue-rotate(360deg) scale(1.15); }
+}
+
+/* Particulas al hacer clic */
+.click-sparkle {
+  position: absolute;
+  pointer-events: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  z-index: 9999;
+  animation: sparkleParticle 0.6s ease-out forwards;
+}
+
+@keyframes sparkleParticle {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx), var(--dy)) scale(0.2);
+  }
+}
+
+/* Adaptacion responsiva para dispositivos moviles */
+@media (max-width: 600px) {
+  .top-action-bar {
+    justify-content: center;
+  }
+  .glow-title {
+    font-size: 2.2rem;
+  }
+  .ascii {
+    font-size: 11px;
+    padding: 10px;
+  }
+  .audio-player-deck {
+    max-width: 100%;
+  }
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
 }
