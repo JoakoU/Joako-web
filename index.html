@@ -1,103 +1,468 @@
 <!doctype html>
 <html lang="es">
   <head>
-    <div class="parallax"></div>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Joako.Web</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="icon" type="image/png" href="images/Shime.png" />
+    <title>Joako.Dev</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap"
       rel="stylesheet"
     />
   </head>
-
   <body>
     <header>
-      <h1>~ Joako.Web ~</h1>
-      <audio autoplay src="audio/audio.mp3" loop></audio>
-      <pre class="ascii">
-  ⣠⣤⣄⣾⣿⡷⣠⣴⣶⣿⣿⣿⣿⣿⣿⣷⣶⣤⡀
-⠀⣼⠋⠀⣾⡟⣳⣾⣿⡿⣿⣿⣿⠟⣿⣿⣿⣿⣿⣿⣿⣷⣄
-⠀⡇⠀⠀⠉⢱⣿⣿⡿⢰⣿⣿⠃⢰⣿⣿⣿⣿⣿⡟⢿⣿⣿⣷
-⠀⠁⠀⠀⠀⣿⣿⣿⠇⣼⣿⠇⡀⢸⡿⣿⣿⣿⡿⠁⢸⣿⣿⣿⡇
-⠀⠀⠀⠀⢰⢰⣿⡿⢀⣸⣿⣤⣿⡈⡇⢿⣿⡿⢁⡎⢸⣿⡇⣿⣿
-⠀⠀⠀⠀⣼⢸⣿⡇⣸⣤⣶⣶⣤⣽⣷⣼⡯⠐⠿⢇⣿⡿⠀⣿⣿
-⠀⠀⠀⠀⣿⣿⣿⡇⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣦⣹⡦⠂⣿⣿
-⠀⠀⠀⠀⣿⡁⣿⡇⠻⣿⣿⣿⣧⣙⠛⣛⣿⣿⣿⣿⣿⠡⠂⣿⡏
-⠀⠀⠀⠀⣿⣧⣙⡇⠲⢀⣉⠛⠛⠿⠿⠿⣿⣿⡿⠿⠋⣴⢀⣿⠃
-⠀⠀⠀⣸⣿⡿⣿⡟⢠⣿⣿⢷⣦⢠⣤⣤⣤⠰⣶⣶⣿⠃⣼⣡
-⠀⠀⢠⣿⡿⢠⣿⢡⣿⣿⠃⣾⡇⣸⢸⣿⣿⡇⡿⢿⣿⣿⣿⣿  
-      </pre>
-
-      <span class="version-2">V2.2.6</span>
+      <h1>
+        Joako.Dev
+        <pre class="ascii">
+⣿⠛⠛⠛⠛⠻⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠛⢛⣿⠋⢀⡾⠃⠀⠀⠀⠀⢀⣤⣤⠤⠤⣤⣤⣀⣀⣀⣠⠶⡶⣤⣀⣠⠾⡷⣦⣀⣤⣤⡤⠤⠦⢤⣤⣄⡀⠀⢠⡶⢶⡄⠀⠀
+⢠⡟⠁⣴⣿⢤⡄⣴⢶⠶⡆⠈⢷⡀⠀⠀⠀⠀⢀⣭⣫⠵⠥⠽⣄⣝⠵⢍⣘⣄⠳⣤⣀⠀⠀⢀⡤⠊⣽⠁⠀⠸⣇⠀⢿⠀⠀
+⠸⢷⣴⣤⡤⠾⠇⣽⠋⠼⣷⠀⠈⢷⡄⢀⣤⡶⠋⠀⣀⡄⠤⠀⡲⡆⠀⠀⠈⠙⡄⠘⢮⢳⡴⠯⣀⢠⡏⠀⠀⠀⢻⠀⢸⠇⠀
+⠀⠀⠀⠀⠀⠀⠀⠙⠛⠋⠉⢀⣴⠟⠉⢯⡞⡠⢲⠉⣼⠀⠀⡰⠁⡇⢀⢷⠀⣄⢵⠀⠈⡟⢄⠀⠀⠙⢷⣤⣤⣤⡿⢢⡿⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠟⠑⠊⠁⡼⣌⢠⢿⢸⢸⡀⢰⠁⡸⡇⡸⣸⢰⢈⠘⡄⠀⢸⠀⢣⡀⠀⠈⢮⢢⣏⣤⡾⠃⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣯⣴⠞⡠⣼⠁⡘⣾⠏⣿⢇⣳⣸⣞⣀⢱⣧⣋⣞⡜⢳⡇⠀⢸⠀⢆⢧⠀⠰⣄⢏⢧⣾⠁⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢹⡏⢰⠁⡻⠀⡟⡏⠉⠀⣀⠀⠀⠀⠀⣀⠁⠀⠉⠛⢽⠇⠀⣼⡆⠈⡆⠃⠀⡏⠻⣾⣽⣇⡀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠁⡇⠀⡇⡄⣿⠷⠿⠿⠛⠀⠀⠀⠀⠛⠻⠿⠿⠿⡜⢀⡴⡟⢸⣸⡼⠀⠀⡇⠀⡞⡆⢻⠙⢦⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡶⢀⣼⣿⣬⣽⠧⠬⠇⠀⠀⠀⠀⠀⠀⢞⣯⣭⢺⣔⣪⣾⣤⠺⡇⢳⠀⢠⣧⡾⠛⠛⠻⠶⠞⠁
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠷⢿⠟⠉⡀⠈⢦⡀⠀⠀⣠⠖⠒⠒⢤⡀⠀⢀⡼⠿⢇⡣⢬⣶⠷⢿⣤⡾⠁⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠷⠾⠷⠖⠛⠛⠲⠶⠿⠤⣤⠤⠤⢷⣶⠋⠀⠀⠀⣱⠞⠁⠀⠈⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠓⠒⠚⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+        </pre>
+        <span class="resaltado">V3.2.6 Core Update</span>
+      </h1>
     </header>
 
-    <p>
-      Joako.web era tan bueno <br />
-      que tuve que sacarle una secuela
-    </p>
-
-    <h2><strong>Juegos Favoritos</strong></h2>
-    <ul>
-      <li>
-        <a class="links" href="https://osu.ppy.sh/users/25087082"
-          >Osu!<br />
-          <img src="img/Osu.png"
-        /></a>
-        <p>Juego de mierda :3</p>
-      </li>
-
-      <li>
-        <a class="links" href="https://fluxis.flux.moe/u/1137"
-          >FluXis<br /><img src="img/FluxLogo.png"
-        /></a>
-        <p>Osu! con esteroides</p>
-      </li>
-
-      <li>
-        <a class="links" href="https://etternaonline.com/users/JoakoFR"
-          >Etterna<br /><img src="img/etterna.png"
-        /></a>
-        <p>Main Jumpstream</p>
-      </li>
-    </ul>
-
-    <h3><strong>Redes Sociales</strong></h3>
-
-    <ul>
-      <li>
-        <a class="links" href="https://github.com/JoakoU"
-          >Github <br /><img src="img/Github.png"
-        /></a>
-
-        <p>Aun no subo nada, <br />pero en algun momento lo hare xD</p>
-      </li>
-
-      <li>
-        <a
-          class="links"
-          href="https://steamcommunity.com/profiles/76561199164842453/"
-          >Steam <br /><img src="img/steam.png"
-        /></a>
-
-        <p>Perfil de Steam</p>
-      </li>
-
-      <li>
-        <a class="links" href="https://www.youtube.com/@Joako-FR"
-          >Youtube <br /><img src="img/Tube.png"
-        /></a>
-        <p>Poco contenido, <br />algun dia quizas lo reviva</p>
-      </li>
-    </ul>
-
-    <div class="mate">
-      <br />Diseñado a puro 🧉 y 💖<br />
-      por Joako<br />:3
+    <div class="hero-terminal">
+      <div class="hero-header">
+        <div class="hero-prompt-container">
+          <span class="prompt-user">joako@dev:~$</span>
+          <span class="prompt-cmd">whoami</span>
+        </div>
+        <div class="terminal-buttons">
+          <span class="btn green"></span>
+          <span class="btn yellow"></span>
+          <span class="btn red"></span>
+        </div>
+      </div>
+      <div class="hero-body">
+        <h2><span class="resaltado-hero">Joako</span></h2>
+        <p class="hero-desc">
+          Dev novato metiendole mano a la programacion.<br />
+          Amante de la musica, el software y los videojuegos
+        </p>
+        <div class="hero-badges">
+          <span class="badge">20 Y/O</span>
+          <span class="badge">Linux Mint 22.3 x86_64</span>
+          <span class="badge">Kitty 0.32.2</span>
+        </div>
+      </div>
     </div>
+
+    <main class="main-container">
+      <!-- Reproductor de música movido arriba del todo -->
+      <section class="section-group">
+        <div class="terminal-card wide player-card changelog-card">
+          <div class="terminal-header">
+            <span class="terminal-title">~test3/audio/file.ogg</span>
+            <div class="terminal-buttons">
+              <span class="btn green"></span>
+              <span class="btn yellow"></span>
+              <span class="btn red"></span>
+            </div>
+          </div>
+          <div class="terminal-body cli-player-body">
+            <div class="cli-player">
+              <div class="cli-info">
+                <span class="cli-tag" id="audio-status">[PAUSED]</span>
+                <img src="images/farewell.png" class="icon-music" /><span
+                  class="cli-track"
+                  >Lena Raine - Farewell.ogg</span
+                >
+              </div>
+
+              <div class="cli-controls-row">
+                <button id="play-btn" class="cli-btn">[ ▶ PLAY ]</button>
+                <div class="cli-progress-bar" id="progress-container">
+                  <div class="cli-progress-fill" id="progress-bar"></div>
+                </div>
+                <span class="cli-time" id="time-display">00:00</span>
+              </div>
+            </div>
+
+            <audio id="main-audio" loop preload="auto">
+              <source src="audio/audio.ogg" />
+            </audio>
+          </div>
+          <div class="terminal-footer" id="audio-footer">STATUS: READY</div>
+        </div>
+      </section>
+
+      <section class="section-group">
+        <div class="terminal-card wide changelog-card">
+          <div class="terminal-header">
+            <span class="terminal-title">~/changelog</span>
+            <div class="terminal-buttons">
+              <span class="btn green"></span>
+              <span class="btn yellow"></span>
+              <span class="btn red"></span>
+            </div>
+          </div>
+          <div class="terminal-body">
+            <h2>Web Changelog - v3.3.0</h2>
+
+            <div class="changelog-entry">
+              <span class="resaltado">[+] Added:</span>
+              <ul>
+                <li>
+                  reproductor de audio cli interactivo en JS con autoplay al
+                  primer click
+                </li>
+                <li>
+                  fondo dinamico neon con movimiento de grilla y un glow redondo
+                </li>
+                <li>
+                  efecto retro scanlines crt restaurado a pantalla completa
+                </li>
+                <li>seccion de bienvenida estilo consola interactiva</li>
+              </ul>
+            </div>
+
+            <div class="changelog-entry">
+              <span class="resaltado">[~] Changed:</span>
+              <ul>
+                <li>
+                  limpieza integral y reestructuracion de todo el archivo
+                  style.css
+                </li>
+                <li>
+                  rework del mensaje de agradecimiento y mencion a
+                  <a
+                    href="https://github.com/JEEM244/Joako-web"
+                    target="_blank"
+                    class="resaltado"
+                    >@JEEM244</a
+                  >
+                </li>
+              </ul>
+            </div>
+
+            <div class="changelog-entry">
+              <span class="resaltado">[-] Fixed:</span>
+              <ul>
+                <li>
+                  fix de espacio en blanco excesivo en la terminal de creditos
+                </li>
+                <li>remocion de selectores css duplicados y codigo muerto</li>
+              </ul>
+            </div>
+          </div>
+          <div class="terminal-footer">STATUS: UPDATING . . .</div>
+        </div>
+      </section>
+
+      <section class="section-group">
+        <div class="section-header">// REDES SOCIALES</div>
+        <div class="terminal-grid">
+          <div class="terminal-card mini">
+            <div class="terminal-header">
+              <span class="terminal-title">~/social/github</span>
+              <div class="terminal-buttons">
+                <span class="btn green"></span>
+                <span class="btn yellow"></span>
+                <span class="btn red"></span>
+              </div>
+            </div>
+            <div class="terminal-body">
+              <h2>
+                <a
+                  class="resaltado"
+                  href="https://github.com/JoakoU"
+                  target="_blank"
+                >
+                  GitHub
+                  <img src="images/github.png" alt="" class="icon-inline" />
+                </a>
+              </h2>
+              <p>Aca se guardan todos mis proyectos</p>
+            </div>
+            <div class="terminal-footer">PORT: 443</div>
+          </div>
+
+          <div class="terminal-card mini">
+            <div class="terminal-header">
+              <span class="terminal-title">~/social/youtube</span>
+              <div class="terminal-buttons">
+                <span class="btn green"></span>
+                <span class="btn yellow"></span>
+                <span class="btn red"></span>
+              </div>
+            </div>
+            <div class="terminal-body">
+              <h2>
+                <a
+                  class="resaltado"
+                  href="https://www.youtube.com/@Joako-FR"
+                  target="_blank"
+                >
+                  YouTube
+                  <img src="images/youtube.png" alt="" class="icon-inline" />
+                </a>
+              </h2>
+              <p>Gameplays y algo mas</p>
+            </div>
+            <div class="terminal-footer">PORT: 443</div>
+          </div>
+
+          <div class="terminal-card mini">
+            <div class="terminal-header">
+              <span class="terminal-title">~/social/instagram</span>
+              <div class="terminal-buttons">
+                <span class="btn green"></span>
+                <span class="btn yellow"></span>
+                <span class="btn red"></span>
+              </div>
+            </div>
+            <div class="terminal-body">
+              <h2>
+                <a
+                  class="resaltado"
+                  href="https://www.instagram.com/_sealed._/"
+                  target="_blank"
+                >
+                  Instagram
+                  <img src="images/instagram.png" alt="" class="icon-inline" />
+                </a>
+              </h2>
+              <p>Un poquito mas de mi</p>
+            </div>
+            <div class="terminal-footer">PORT: 443</div>
+          </div>
+
+          <div class="terminal-card mini">
+            <div class="terminal-header">
+              <span class="terminal-title">~/social/discord</span>
+              <div class="terminal-buttons">
+                <span class="btn green"></span>
+                <span class="btn yellow"></span>
+                <span class="btn red"></span>
+              </div>
+            </div>
+            <div class="terminal-body">
+              <h2>
+                <a
+                  class="resaltado"
+                  href="https://discord.com/users/944420855876816896"
+                  target="_blank"
+                >
+                  Discord
+                  <img src="images/discord.png" alt="" class="icon-inline" />
+                </a>
+              </h2>
+              <p>Link a mi perfil</p>
+            </div>
+            <div class="terminal-footer">PORT: 6463</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-group">
+        <div class="section-header">// GAMING PROFILES</div>
+        <div class="terminal-grid">
+          <div class="terminal-card mini">
+            <div class="terminal-header">
+              <span class="terminal-title">~/games/osu</span>
+              <div class="terminal-buttons">
+                <span class="btn green"></span>
+                <span class="btn yellow"></span>
+                <span class="btn red"></span>
+              </div>
+            </div>
+            <div class="terminal-body">
+              <h2>
+                <a
+                  class="resaltado"
+                  href="https://osu.ppy.sh/users/25087082"
+                  target="_blank"
+                >
+                  Osu!
+                  <img src="images/osu.png" alt="" class="icon-inline" />
+                </a>
+              </h2>
+              <p>Cuenta de Osu!</p>
+            </div>
+            <div class="terminal-footer">STATE: NOT PLAYING ANYMORE</div>
+          </div>
+
+          <div class="terminal-card mini">
+            <div class="terminal-header">
+              <span class="terminal-title">~/games/fluxis</span>
+              <div class="terminal-buttons">
+                <span class="btn green"></span>
+                <span class="btn yellow"></span>
+                <span class="btn red"></span>
+              </div>
+            </div>
+            <div class="terminal-body">
+              <h2>
+                <a
+                  class="resaltado"
+                  href="https://fluxis.flux.moe/u/1137"
+                  target="_blank"
+                >
+                  fluXis
+                  <img src="images/fluxis.png" alt="" class="icon-inline" />
+                </a>
+              </h2>
+              <p>Cuenta de fluXis</p>
+            </div>
+            <div class="terminal-footer">STATE: IDLE</div>
+          </div>
+
+          <div class="terminal-card mini">
+            <div class="terminal-header">
+              <span class="terminal-title">~/games/steam</span>
+              <div class="terminal-buttons">
+                <span class="btn green"></span>
+                <span class="btn yellow"></span>
+                <span class="btn red"></span>
+              </div>
+            </div>
+            <div class="terminal-body">
+              <h2>
+                <a
+                  class="resaltado"
+                  href="https://steamcommunity.com/profiles/76561199164842453/"
+                  target="_blank"
+                >
+                  Steam
+                  <img src="images/steam.png" alt="" class="icon-inline" />
+                </a>
+              </h2>
+              <p>Cuenta de Steam</p>
+            </div>
+            <div class="terminal-footer">STATE: ONLINE 🟢</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-group">
+        <div class="section-header">// ACTIVITY MONITOR</div>
+        <div class="terminal-grid">
+          <div class="terminal-card wide">
+            <div class="terminal-header">
+              <span class="terminal-title">~/rich-presence</span>
+              <div class="terminal-buttons">
+                <span class="btn green"></span>
+                <span class="btn yellow"></span>
+                <span class="btn red"></span>
+              </div>
+            </div>
+            <div class="terminal-body widget-body presence-body">
+              <h2>ACTIVIDAD</h2>
+              <a
+                href="https://discord.com/users/944420855876816896"
+                target="_blank"
+                class="widget-link"
+              >
+                <img
+                  class="presence-widget"
+                  src="https://lanyard.cnrad.dev/api/944420855876816896?theme=dark&bg=050505&animated=true&hideDiscrim=true"
+                  alt="Discord Rich Presence"
+                />
+              </a>
+            </div>
+            <div class="terminal-footer">FEED: LIVE</div>
+          </div>
+
+          <div class="terminal-card wide">
+            <div class="terminal-header">
+              <span class="terminal-title">~/github-activity</span>
+              <div class="terminal-buttons">
+                <span class="btn green"></span>
+                <span class="btn yellow"></span>
+                <span class="btn red"></span>
+              </div>
+            </div>
+            <div class="terminal-body widget-body">
+              <h2>Actividad en Github</h2>
+              <a
+                href="https://github.com/JoakoU"
+                target="_blank"
+                class="widget-link"
+              >
+                <img
+                  class="github-widget"
+                  src="https://github-readme-activity-graph.vercel.app/graph?username=JoakoU&theme=purple&bg_color=050505&hide_border=true&area=true&color=c084fc&hide_title=true"
+                  height="160"
+                  alt="GitHub Activity Graph"
+                />
+              </a>
+            </div>
+            <div class="terminal-footer">BRANCH: MAIN</div>
+          </div>
+
+          <div class="terminal-card wide">
+            <div class="terminal-header">
+              <span class="terminal-title">~/credits/acknowledgements</span>
+              <div class="terminal-buttons">
+                <span class="btn green"></span>
+                <span class="btn yellow"></span>
+                <span class="btn red"></span>
+              </div>
+            </div>
+            <div class="terminal-body credits-body">
+              <div class="credits-log">
+                <div class="commit-item">
+                  <div class="commit-header">
+                    <span class="commit-hash">commit a1b2c3d</span>
+                    <span class="commit-author"
+                      >Author: Joako &lt;joako@dev&gt;</span
+                    >
+                  </div>
+                  <p class="commit-msg">
+                    special thanks: especial agradecimiento a mis amigos por
+                    segundearme revisando esta web de mierda &lt;3
+                    <br />(Gracias <span class="resaltado">Nabd</span>,
+                    <span class="resaltado">Matero</span> y
+                    <span class="resaltado">Capy</span>)
+                  </p>
+                </div>
+
+                <br />
+                <div class="commit-item">
+                  <div class="commit-header">
+                    <span class="commit-hash">commit e4f5g6h</span>
+                    <span class="commit-author"
+                      >Author: Joako &lt;joako@dev&gt;</span
+                    >
+                  </div>
+                  <p class="commit-msg">
+                    acknowledgements: un reconocimiento y disculpa a
+                    <a
+                      href="https://github.com/JEEM244/Joako-web"
+                      target="_blank"
+                      class="resaltado"
+                      >@JEEM244</a
+                    >
+                    por haberse tomado el tiempo de hacer un fork y proponer un
+                    reestructurado completo. Aunque prefiero mantener este
+                    proyecto como un espacio propio, aprecio un monton la
+                    iniciativa y la ayuda &lt;3
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="terminal-footer">TOTAL DEV COMMITS: 2</div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="mate">
+      <p>Diseñado a puro<br />Mate 🧉 y 💖 Amor<br />por Joako</p>
+    </footer>
     <script src="script.js"></script>
   </body>
 </html>
